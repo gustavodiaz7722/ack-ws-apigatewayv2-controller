@@ -56,8 +56,7 @@ type IntegrationSpec struct {
 	// use the role's Amazon Resource Name (ARN). To require that the caller's identity
 	// be passed through from the request, specify the string arn:aws:iam::*:user/*.
 	// To use resource-based permissions on supported AWS services, specify null.
-	CredentialsARN *string                                  `json:"credentialsARN,omitempty"`
-	CredentialsRef *ackv1alpha1.AWSResourceReferenceWrapper `json:"credentialsRef,omitempty"`
+	CredentialsARN *string `json:"credentialsARN,omitempty"`
 	// The description of the integration.
 	Description *string `json:"description,omitempty"`
 	// Specifies the integration's HTTP method type.

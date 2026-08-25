@@ -1515,11 +1515,6 @@ func (in *IntegrationSpec) DeepCopyInto(out *IntegrationSpec) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.CredentialsRef != nil {
-		in, out := &in.CredentialsRef, &out.CredentialsRef
-		*out = new(corev1alpha1.AWSResourceReferenceWrapper)
-		(*in).DeepCopyInto(*out)
-	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
