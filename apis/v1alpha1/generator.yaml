@@ -84,24 +84,10 @@ resources:
         references:
           resource: VPCLink
           path: Status.VPCLinkID
-      # NOTE: Spec.CredentialsARN is deliberately left unwired for now. Its
-      # documentation describes three options - an IAM role ARN, the literal
-      # string arn:aws:iam::*:user/*, or omitting the parameter - so whether it is
-      # single-typed is ambiguous on the face of the docs.
-      #
-      # Probing apigatewayv2 live suggests an IAM role is the only usable type:
-      # the arn:aws:iam::*:user/* form is rejected outright ("Invalid role ARN")
-      # on both HTTP and WebSocket integrations, and while CreateIntegration does
-      # accept any well-formed same-account IAM ARN - including a nonexistent
-      # role, a user, and a group - an access point using a user ARN returns HTTP
-      # 500 on every request, since API Gateway assumes these credentials and only
-      # a role is assumable.
-      #
-      # That reasoning was not considered settled enough to wire on, so the
-      # reference is deferred rather than added. See
-      # https://github.com/aws-controllers-k8s/apigatewayv2-controller/pull/131
-      # Note Authorizer.AuthorizerCredentialsArn IS wired: its documentation
-      # offers only an IAM role or omission, with no equivalent ambiguity.
+      # Spec.CredentialsARN is intentionally not reference-backed: its documented
+      # value set is not clearly a single resource type - an IAM role ARN, the
+      # literal string arn:aws:iam::*:user/*, or omission. Deferred rather than
+      # wiring the role arm on its own.
     tags:
       ignore: true
   Route:
