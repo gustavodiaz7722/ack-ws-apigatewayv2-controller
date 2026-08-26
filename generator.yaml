@@ -55,6 +55,11 @@ resources:
         references:
           resource: API
           path: Status.APIID
+      AuthorizerCredentialsArn:
+        references:
+          resource: Role
+          service_name: iam
+          path: Status.ACKResourceMetadata.ARN
     tags:
       ignore: true
   Deployment:
@@ -63,6 +68,10 @@ resources:
         references:
           resource: API
           path: Status.APIID
+      StageName:
+        references:
+          resource: Stage
+          path: Spec.StageName
     tags:
       ignore: true
   Integration:
@@ -75,6 +84,10 @@ resources:
         references:
           resource: VPCLink
           path: Status.VPCLinkID
+      # Spec.CredentialsARN is intentionally not reference-backed: its documented
+      # value set is not clearly a single resource type - an IAM role ARN, the
+      # literal string arn:aws:iam::*:user/*, or omission. Deferred rather than
+      # wiring the role arm on its own.
     tags:
       ignore: true
   Route:
@@ -97,6 +110,17 @@ resources:
     tags:
       ignore: true
   VpcLink:
+    fields:
+      SecurityGroupIDs:
+        references:
+          resource: SecurityGroup
+          service_name: ec2
+          path: Status.ID
+      SubnetIDs:
+        references:
+          resource: Subnet
+          service_name: ec2
+          path: Status.SubnetID
     hooks:
       sdk_update_pre_build_request:
         template_path: hooks/vpc_link/sdk_update_pre_build_request.go.tpl
@@ -133,6 +157,10 @@ resources:
         references:
           resource: DomainName
           path: Spec.DomainName
+      Stage:
+        references:
+          resource: Stage
+          path: Spec.StageName
     tags:
       ignore: true
 operations:
